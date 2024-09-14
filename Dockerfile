@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5004
 
 # Commande pour démarrer le serveur Flask
-CMD ["python", "auth_api.py"]
+CMD ["waitress-serve", "--port=5004", "auth_api:app"]
