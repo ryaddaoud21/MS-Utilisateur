@@ -6,6 +6,7 @@ class Config:
 
     # Configuration de la base de données
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'mysql+pymysql://root:@mysql-db/users_db')
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Configuration de RabbitMQ

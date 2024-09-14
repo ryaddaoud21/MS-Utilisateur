@@ -60,6 +60,8 @@ def login():
     return jsonify({"msg": "Invalid credentials"}), 401
 
 
+
+
 @auth_blueprint.route('/logout', methods=['POST'])
 def logout():
     token = request.headers.get('Authorization').split('Bearer ')[1]
