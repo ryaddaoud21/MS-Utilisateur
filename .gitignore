@@ -1,0 +1,81 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+bin/
+obj/
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Flask cache and session files
+instance/
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# pytest
+.cache/
+.pytest_cache/
+
+# SQLite database files
+*.sqlite3
+*.db
+
+# Docker files
+**/Dockerfile
+docker-compose.yml
+*.env
+*.pid
+/.docker/
+.dockerignore
+
+# Logs and database
+logs/
+*.log
+*.pid
+*.seed
+*.pid
+*.bak
+
+# Coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Environment variable files
+.env
+.env.*
+*.env
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# GitHub Actions
+.github/
