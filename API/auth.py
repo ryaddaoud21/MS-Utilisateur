@@ -70,3 +70,20 @@ def logout():
 
     return make_response(jsonify({"error": "Unauthorized"}), 401)
 
+@auth_blueprint.route('/validate_token', methods=['POST'])
+def validate_token():
+    data = request.json
+    token = data.get('token')
+
+    if not token:
+        return jsonify({"error": "Token is missing"}), 400
+
+    # Chercher le token dans la liste des tokens valides
+    user = next((u for u, t in valid_tokens.items() if t["token"] == token), None)
+
+    if user:
+        return jsonify({"valid": True, "user": user, "role": valid_tokens[user]['role']}), 200
+
+    return jsonify({"valid": False, "error": "Invalid token"}), 401
+
+
