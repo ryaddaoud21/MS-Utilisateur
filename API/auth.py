@@ -49,3 +49,18 @@ def login():
         return jsonify({"token": token}), 200
 
     return jsonify({"msg": "Invalid credentials"}), 401
+
+
+
+# Logout Endpoint
+@auth_blueprint.route('/logout', methods=['POST'])
+@token_required
+def logout():
+    token = request.headers.get('Authorization').split('Bearer ')[1]
+    user = next((u for u, t in valid_tokens.items() if t["token"] == token), None)
+
+    if user:
+        del valid_tokens[user]
+        return jsonify({"msg": "Successfully logged out"}), 200
+
+    return make_response(jsonify({"error": "Unauthorized"}), 401)
