@@ -1,0 +1,57 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests
+      id: run_tests
+      run: pytest
+
+    - name: Commit changes if tests pass
+      if: success() && steps.run_tests.outcome == 'success'
+      run: |
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
+        git add .
+        git commit -m "Auto-commit: Fix tests or update"
+        git push origin main
+
+    - name: Push changes to main branch
+      if: success() && steps.run_tests.outcome == 'success'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: git push origin main
+
+    - name: Create and push a new branch if tests fail
+      if: failure()  # Runs only if the tests fail
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
+        NEW_BRANCH="fix-tests-${{ github.sha }}"
+        git checkout -b $NEW_BRANCH
+        git push origin $NEW_BRANCH
