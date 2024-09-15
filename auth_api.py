@@ -18,5 +18,15 @@ app.register_blueprint(auth_blueprint)
 def home():
     return {"message": "Bienvenue dans le service d'authentification !"}
 
+from prometheus_client import multiprocess, CollectorRegistry, generate_latest, CONTENT_TYPE_LATEST
+
+
+@app.route('/metrics')
+def metrics():
+    registry = CollectorRegistry()
+    multiprocess.MultiProcessCollector(registry)
+    return generate_latest(registry), 200, {'Content-Type': CONTENT_TYPE_LATEST}
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5004)
