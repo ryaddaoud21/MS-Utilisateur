@@ -50,6 +50,11 @@ def login():
 
     return jsonify({"msg": "Invalid credentials"}), 401
 
+# Ajout d'une route protégée
+@auth_blueprint.route('/protected', methods=['GET'])
+@token_required
+def protected_route():
+    return jsonify({"msg": "This is a protected route"}), 200
 
 
 # Logout Endpoint
